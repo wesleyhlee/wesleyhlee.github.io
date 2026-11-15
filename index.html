@@ -1,141 +1,333 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Animal Kingdom Zoo</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<link rel="stylesheet" href="css/style.css" type="text/css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- EDIT: your name and a one-line description (shows in search results and link previews) -->
+  <title>Wesley Lee — Portfolio</title>
+  <meta name="description" content="Wesley Lee builds software for the web, the desktop and computer vision.">
+  <meta property="og:title" content="Wesley Lee — Portfolio">
+  <meta property="og:description" content="Selected projects, experience and contact details.">
+  <meta property="og:url" content="https://wesleyhlee.github.io/">
+  <link rel="canonical" href="https://wesleyhlee.github.io/">
+  <!-- Always load assets over https:// so the page never mixes in insecure content -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2310183A'/%3E%3Cpath d='M6 6h6M6 6v6M26 26h-6M26 26v-6' stroke='%23FFD23F' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%235BD1E8'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #10183A;        /* page background */
+      --ink-2: #19234F;      /* raised surfaces */
+      --paper: #EEF0F7;      /* main text */
+      --muted: #9AA1C4;      /* secondary text */
+      --signal: #FFD23F;     /* tracking boxes, primary accent */
+      --cyan: #5BD1E8;       /* tracked points, links */
+      --line: rgba(238,240,247,.14);
+      --display: "Bricolage Grotesque", system-ui, sans-serif;
+      --body: "Atkinson Hyperlegible", system-ui, sans-serif;
+      --wrap: min(1120px, 100% - 3rem);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--ink); color: var(--paper);
+      font: 1.0625rem/1.65 var(--body);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--cyan); text-underline-offset: .2em; }
+    a:hover { color: var(--paper); }
+    :focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
+    .wrap { width: var(--wrap); margin-inline: auto; }
+    .skip { position: absolute; left: -999px; top: 0; background: var(--signal); color: var(--ink); padding: .5rem 1rem; z-index: 10; }
+    .skip:focus { left: 1rem; }
+
+    /* ---------- Nav ---------- */
+    header.nav { position: absolute; inset: 0 0 auto; z-index: 5; }
+    header.nav .wrap { display: flex; justify-content: space-between; align-items: center; padding-block: 1.5rem; }
+    .mark { font: 800 1.25rem/1 var(--display); color: var(--paper); text-decoration: none; letter-spacing: -.02em; }
+    .mark span { color: var(--signal); }
+    nav ul { display: flex; gap: 1.75rem; list-style: none; margin: 0; padding: 0; }
+    nav a { color: var(--paper); text-decoration: none; font-size: .95rem; }
+    nav a:hover { color: var(--signal); }
+
+    /* ---------- Hero: a live tracking overlay ---------- */
+    .hero { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: hidden; cursor: crosshair;
+      background:
+        radial-gradient(circle at 1px 1px, rgba(238,240,247,.09) 1px, transparent 0) 0 0 / 28px 28px,
+        var(--ink); }
+    .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero-copy { position: relative; padding-block: 0 9vh; pointer-events: none; }
+    .hero-copy a { pointer-events: auto; }
+    .hello { color: var(--muted); font-size: 1.125rem; margin: 0 0 .75rem; }
+    h1 { font: 800 clamp(3.25rem, 11vw, 9.5rem)/.88 var(--display); letter-spacing: -.045em; margin: 0; }
+    .lede { max-width: 34rem; font-size: clamp(1.1rem, 1.6vw, 1.3rem); margin: 1.75rem 0 2rem; color: var(--paper); }
+    .actions { display: flex; flex-wrap: wrap; gap: .85rem; }
+    .btn { display: inline-block; padding: .85rem 1.4rem; font-weight: 700; text-decoration: none; border: 2px solid var(--signal); color: var(--ink); background: var(--signal); }
+    .btn:hover { background: transparent; color: var(--signal); }
+    .btn.ghost { background: transparent; color: var(--paper); border-color: var(--line); }
+    .btn.ghost:hover { border-color: var(--paper); color: var(--paper); }
+    .readout { position: absolute; right: 1.5rem; bottom: 1.5rem; font: 400 .85rem/1.4 var(--body); font-variant-numeric: tabular-nums; color: var(--muted); text-align: right; pointer-events: none; }
+    .readout b { color: var(--signal); font-weight: 700; }
+
+    /* ---------- Sections ---------- */
+    section { padding-block: clamp(5rem, 10vw, 8rem); }
+    h2 { font: 800 clamp(2.25rem, 5vw, 3.75rem)/1 var(--display); letter-spacing: -.035em; margin: 0 0 1rem; }
+    .intro { color: var(--muted); max-width: 38rem; margin: 0 0 3.5rem; }
+
+    /* Projects: each is framed by a tracking box that locks on when hovered/focused */
+    .projects { display: grid; gap: 2.5rem; }
+    .project { position: relative; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; align-items: center; padding: 1.5rem; }
+    .project:nth-child(even) .shot { order: 2; }
+    .project::before, .project::after { content: ""; position: absolute; width: 22px; height: 22px; border: 3px solid var(--signal); opacity: .35; transition: inset .35s cubic-bezier(.2,.8,.2,1), opacity .35s; }
+    .project::before { inset: 0 auto auto 0; border-right: 0; border-bottom: 0; }
+    .project::after  { inset: auto 0 0 auto; border-left: 0; border-top: 0; }
+    .project:hover::before, .project:focus-within::before { inset: -10px auto auto -10px; opacity: 1; }
+    .project:hover::after,  .project:focus-within::after  { inset: auto -10px -10px auto; opacity: 1; }
+    .shot { aspect-ratio: 16 / 10; background: var(--ink-2); display: grid; place-items: center; overflow: hidden; color: var(--muted); font-size: .9rem; }
+    .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .project h3 { font: 600 clamp(1.6rem, 3vw, 2.2rem)/1.1 var(--display); letter-spacing: -.02em; margin: 0 0 .75rem; }
+    .project p { margin: 0 0 1.25rem; max-width: 32rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: 0 0 1.25rem; }
+    .tags li { font-size: .85rem; padding: .2rem .65rem; border: 1px solid var(--line); color: var(--muted); }
+    .links { display: flex; gap: 1.25rem; font-weight: 700; }
+
+    /* About + skills */
+    .about { background: var(--paper); color: var(--ink); }
+    .about a { color: #1F4FD1; }
+    .about .wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
+    .about p { max-width: 36rem; }
+    .about h3 { font: 600 1.25rem/1.2 var(--display); margin: 0 0 1rem; }
+    .skills { list-style: none; padding: 0; margin: 0 0 2.5rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+    .skills li { padding: .35rem .8rem; background: var(--ink); color: var(--paper); font-size: .95rem; }
+    .timeline { list-style: none; padding: 0; margin: 0; border-left: 3px solid var(--ink); }
+    .timeline li { padding: 0 0 1.25rem 1.25rem; position: relative; }
+    .timeline li::before { content: ""; position: absolute; left: -8px; top: .45rem; width: 13px; height: 13px; background: var(--signal); border: 3px solid var(--ink); border-radius: 50%; }
+    .timeline strong { display: block; }
+    .timeline span { color: #4A527A; font-size: .95rem; }
+
+    /* Contact */
+    .contact { text-align: left; }
+    .big-link { font: 800 clamp(1.9rem, 6vw, 4.5rem)/1 var(--display); letter-spacing: -.035em; color: var(--paper); text-decoration-color: var(--signal); text-decoration-thickness: .08em; word-break: break-word; }
+    .big-link:hover { color: var(--signal); }
+    .socials { display: flex; flex-wrap: wrap; gap: 1.5rem; list-style: none; padding: 0; margin: 2.5rem 0 0; }
+    footer { border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    footer .wrap { padding-block: 2rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+
+    @media (max-width: 760px) {
+      nav ul { gap: 1.1rem; }
+      .project, .about .wrap { grid-template-columns: 1fr; }
+      .project:nth-child(even) .shot { order: 0; }
+      .readout { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .project::before, .project::after { transition: none; }
+    }
+  </style>
 </head>
 <body>
-<div id="page">
-  <div id="header"> <a href="#" id="logo"><img src="images/logo.jpg" alt=""/></a>
-    <ul>
-      <li class="first">
-        <h2><a href="live.html">Live</a></h2>
-        <span>Have fun in your visit</span> </li>
-      <li>
-        <h2><a href="#">Love</a></h2>
-        <span>Donate for the animals</span> </li>
-      <li>
-        <h2><a href="#">Learn</a></h2>
-        <span>Get to know the animals</span> </li>
-    </ul>
-    <a href="#">Buy tickets / Check Events</a>
-    <ul id="navigation">
-      <li id="link1" class="selected"><a href="index.html">Home</a></li>
-      <li id="link2"><a href="zoo.html">The Zoo</a></li>
-      <li id="link3"><a href="info.html">Visitors Info</a></li>
-      <li id="link4"><a href="tickets.html">Tickets</a></li>
-      <li id="link5"><a href="events.html">Events</a></li>
-      <li id="link6"><a href="gallery.html">Gallery</a></li>
-      <li id="link7"><a href="contact.html">Contact Us</a></li>
-    </ul>
-    <img src="images/lion-family.jpg" alt=""/>
-    <div>
-      <h1>Special Events:</h1>
-      <p>This website template has been designed by Free Website Templates</p>
-    </div>
-  </div>
-  <div id="content">
-    <div id="featured">
-      <h2>Meet our Animals</h2>
-      <ul>
-        <li class="first"> <a href="#"><img src="images/penguin.jpg" alt=""/></a> <a href="#">Duis laoreet</a> </li>
-        <li> <a href="#"><img src="images/elephant.jpg" alt=""/></a> <a href="#">Curabitur</a> </li>
-        <li> <a href="#"><img src="images/owl.jpg" alt=""/></a> <a href="#">Adipiscing</a> </li>
-        <li> <a href="#"><img src="images/butterfly.jpg" alt=""/></a> <a href="#">Sed Volutpat</a> </li>
-        <li> <a href="#"><img src="images/turtle.jpg" alt=""/></a> <a href="#">Nulla lobortis</a> </li>
-        <li> <a href="#"><img src="images/snake.jpg" alt=""/></a> <a href="#">Suspendisse</a> </li>
-        <li> <a href="#"><img src="images/gorilla.jpg" alt=""/></a> <a href="#">Tincidunt</a> </li>
-        <li class="last"> <a href="#"><img src="images/button-view-gallery.jpg" alt=""/></a> <a href="gallery.html">Gallery</a> </li>
-      </ul>
-    </div>
-    <div class="section1">
-      <h2>Events</h2>
-      <ul id="article">
-        <li class="first"> <a href="#"><span>Jul 17</span></a>
-          <p>This website template has been designed by Free Website Templates for you, for free.</p>
-        </li>
-        <li> <a href="#"><span>Aug 23</span></a>
-          <p>You can remove any link to our website from this website template, you're free to use this website template without linking back to us.</p>
-        </li>
-        <li> <a href="#"><span>Oct 01</span></a>
-          <p>If you're having problems editing this website template, then don't hesitate to ask for help on the Forum.</p>
-        </li>
-      </ul>
-    </div>
-    <div class="section2">
-      <h2>Blog : Curabitur sodales</h2>
-      <p>This website template has been designed by freewebsitetemplates.com for you, for free.</p>
-      <a href="#"><img src="images/dolphins.jpg" alt=""/></a>
-      <ul>
-        <li>
-          <p>This website template has been</p>
-        </li>
-        <li>
-          <p>designed By Free Website Templates for you, for free.</p>
-        </li>
-        <li>
-          <p>If you're having problems editing this website template,</p>
-        </li>
-        <li>
-          <p>then don't hesitate to ask for help on the Forum.</p>
-        </li>
-        <li>
-          <p>Duis a est eget nunc pretium laoreet</p>
-        </li>
-      </ul>
-      <div id="section1">
+  <a class="skip" href="#work">Skip to projects</a>
+
+  <header class="nav">
+    <div class="wrap">
+      <!-- EDIT: your initials -->
+      <a class="mark" href="#top">WL<span>.</span></a>
+      <nav aria-label="Main">
         <ul>
-          <li> <a href="#"><img src="images/gorilla-2.jpg" alt=""/></a>
-            <h4><a href="#">Malesuada fames turpis egestas</a></h4>
-            <p>QUisque lobortis, sem condimentum lacinia</p>
-          </li>
-          <li> <a href="#"><img src="images/snake-2.jpg" alt=""/></a>
-            <h4><a href="#">Morbi eu lacus lorem, sed venenatis ligula</a></h4>
-            <p>Fusce eratenim, lacinia eget pretium vitae</p>
-          </li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO ================= -->
+    <section class="hero" aria-labelledby="name">
+      <canvas id="track" aria-hidden="true"></canvas>
+      <div class="wrap hero-copy">
+        <p class="hello">Hi, I'm</p>
+        <!-- EDIT: your name -->
+        <h1 id="name">Wesley<br>Lee</h1>
+        <!-- EDIT: one or two sentences on what you do -->
+        <p class="lede">I build things that see, teach and ship — from computer vision experiments to desktop apps. Replace this line with your own short introduction.</p>
+        <div class="actions">
+          <a class="btn" href="#work">See my projects</a>
+          <!-- EDIT: put resume.pdf in the repo, or change this link -->
+          <a class="btn ghost" href="resume.pdf">Download resume</a>
+        </div>
+      </div>
+      <p class="readout" aria-hidden="true">tracking <b id="ro-count">2</b> points<br>span <b id="ro-span">0</b> px</p>
+    </section>
+
+    <!-- ================= PROJECTS ================= -->
+    <section id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <h2 id="work-title">Selected work</h2>
+        <p class="intro">A few projects I'm proud of. Each one links to its code and, where there is one, a live demo.</p>
+
+        <div class="projects">
+          <!-- EDIT: copy one <article class="project"> block per project -->
+          <article class="project">
+            <div class="shot">
+              <!-- EDIT: replace with <img src="images/feet-tracker.png" alt="Describe the screenshot"> -->
+              Add a screenshot or GIF
+            </div>
+            <div>
+              <h3>Bird feet tracker</h3>
+              <p>Tracks both feet of an animated bird frame by frame and measures the segment between them. Describe the problem, your approach and the result here.</p>
+              <ul class="tags"><li>Python</li><li>OpenCV</li><li>Computer vision</li></ul>
+              <div class="links">
+                <a href="https://github.com/wesleyhlee">Code</a>
+                <a href="#">Demo video</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="shot">Add a screenshot or GIF</div>
+            <div>
+              <h3>Quiz desktop app</h3>
+              <p>An Electron app that turns plain-text question files into interactive quizzes. Describe who it's for and what you learned building it.</p>
+              <ul class="tags"><li>Electron</li><li>JavaScript</li><li>Desktop</li></ul>
+              <div class="links">
+                <a href="https://github.com/wesleyhlee">Code</a>
+                <a href="#">Download</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="shot">Add a screenshot or GIF</div>
+            <div>
+              <h3>Project name</h3>
+              <p>One or two sentences on what it does and why it matters. Mention a number if you have one: users, speed-up, accuracy.</p>
+              <ul class="tags"><li>Tech</li><li>Tech</li><li>Tech</li></ul>
+              <div class="links">
+                <a href="#">Code</a>
+                <a href="#">Live site</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section id="about" class="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <div>
+          <h2 id="about-title">About me</h2>
+          <!-- EDIT: a short bio, two or three paragraphs -->
+          <p>Write a few sentences about who you are, what you enjoy building and what kind of work you're looking for.</p>
+          <p>Add a second paragraph with something personal: how you got into programming, a side interest, or what you're learning right now.</p>
+        </div>
+        <div>
+          <h3>Tools I use</h3>
+          <!-- EDIT: your skills -->
+          <ul class="skills">
+            <li>Python</li><li>JavaScript</li><li>Electron</li><li>OpenCV</li><li>Git</li><li>HTML &amp; CSS</li>
+          </ul>
+          <h3>Experience</h3>
+          <!-- EDIT: jobs, education, highlights (newest first) -->
+          <ol class="timeline">
+            <li><strong>Role, Company</strong><span>2025 – present</span></li>
+            <li><strong>Role, Company</strong><span>2023 – 2025</span></li>
+            <li><strong>Degree, School</strong><span>Year</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <h2 id="contact-title">Let's talk</h2>
+        <p class="intro">Open to new projects and roles. The fastest way to reach me is email.</p>
+        <!-- EDIT: your public email -->
+        <a class="big-link" href="mailto:you@example.com">you@example.com</a>
+        <ul class="socials">
+          <li><a href="https://github.com/wesleyhlee">GitHub</a></li>
+          <!-- EDIT: your profile URLs -->
+          <li><a href="https://www.linkedin.com/">LinkedIn</a></li>
         </ul>
       </div>
-      <div id="section2">
-        <ul>
-          <li> <a href="#"><img src="images/butterfly-2.jpg" alt=""/></a>
-            <h4><a href="#">This website template has been</a></h4>
-            <p>designed by Free Website Templates for you, for free.</p>
-          </li>
-        </ul>
-      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="year">2026</span> Wesley Lee</span>
+      <a href="#top">Back to top</a>
     </div>
-    <div class="section3">
-      <h2>Connect</h2>
-      <a href="#" id="email">Email Us</a> <a href="#" id="facebook">Facebook</a> <a href="#" id="twitter">Twitter</a>
-      <form action="#">
-        <h3>Subscribe to our</h3>
-        <h2>NEWSLETTER</h2>
-        <input type="text" value="your email here..." onBlur="this.value=!this.value?'your email here...':this.value;" onFocus="this.select()" onClick="this.value='';" />
-      </form>
-      <img src="images/penguin2.jpg" alt=""/> </div>
-  </div>
-  <div id="footer">
-    <div> <a href="#" class="logo"><img src="images/animal-kingdom.jpg" alt=""/></a>
-      <div>
-        <p>Ellentesque habitant morbi tristique senectus et 0000</p>
-        <span>285 067-39 282 / 5282 9273 999</span> <span>email@animalkingdomzoo.com</span> </div>
-      <ul class="navigation">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="tickets.html">Tickets</a></li>
-        <li><a href="zoo.html">The Zoo</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-      </ul>
-      <ul>
-        <li><a href="#">Live : Have fun in your visit</a></li>
-        <li><a href="#">Love : Donate for the animals</a></li>
-        <li><a href="#">Learn : Get to know the animals</a></li>
-      </ul>
-      <p>Copyright &copy; <a href="#">Domain Name</a> - All Rights Reserved | Template By <a target="_blank" href="https://www.freewebsitetemplates.com/">FreeWebsiteTemplates.com</a></p>
-    </div>
-  </div>
-</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Hero: two "tracked points" follow the pointer with lag, joined by a measured segment,
+    // with a bounding box that locks on to them, like a computer vision overlay.
+    (() => {
+      const c = document.getElementById('track'), x = c.getContext('2d');
+      const hero = c.parentElement, span = document.getElementById('ro-span');
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let w, h, dpr, t = 0;
+      const target = { x: 0, y: 0, active: false };
+      const pts = [{ x: 0, y: 0, k: .09 }, { x: 0, y: 0, k: .045 }];
+
+      function size() {
+        dpr = Math.min(devicePixelRatio || 1, 2);
+        w = hero.clientWidth; h = hero.clientHeight;
+        c.width = w * dpr; c.height = h * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+        pts[0].x = w * .62; pts[0].y = h * .38; pts[1].x = w * .78; pts[1].y = h * .52;
+      }
+      function idle() { // gentle orbit when the pointer isn't over the hero
+        return { x: w * .7 + Math.cos(t * .6) * w * .1, y: h * .42 + Math.sin(t * .9) * h * .1 };
+      }
+      function bracket(px, py, s, col) {
+        x.strokeStyle = col; x.lineWidth = 2.5; const l = s * .35;
+        [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx, sy]) => {
+          x.beginPath(); x.moveTo(px + sx*s, py + sy*s - sy*l); x.lineTo(px + sx*s, py + sy*s); x.lineTo(px + sx*s - sx*l, py + sy*s); x.stroke();
+        });
+      }
+      function frame() {
+        t += .016;
+        const g = target.active ? target : idle();
+        pts[0].x += (g.x - pts[0].x) * pts[0].k; pts[0].y += (g.y - pts[0].y) * pts[0].k;
+        const off = { x: g.x + 120 + Math.sin(t * 2) * 30, y: g.y + 70 };
+        pts[1].x += (off.x - pts[1].x) * pts[1].k; pts[1].y += (off.y - pts[1].y) * pts[1].k;
+        draw();
+        if (!still) requestAnimationFrame(frame);
+      }
+      function draw() {
+        x.clearRect(0, 0, w, h);
+        const [a, b] = pts, d = Math.hypot(b.x - a.x, b.y - a.y);
+        // bounding box around both points
+        const pad = 46, minx = Math.min(a.x, b.x) - pad, miny = Math.min(a.y, b.y) - pad;
+        const bw = Math.abs(a.x - b.x) + pad*2, bh = Math.abs(a.y - b.y) + pad*2;
+        x.setLineDash([6, 8]); x.strokeStyle = 'rgba(255,210,63,.55)'; x.lineWidth = 1.5;
+        x.strokeRect(minx, miny, bw, bh); x.setLineDash([]);
+        x.fillStyle = '#FFD23F'; x.font = '700 13px "Atkinson Hyperlegible", sans-serif';
+        x.fillText('subject  ' + (0.9 + Math.sin(t) * .04).toFixed(2), minx, miny - 10);
+        // measured segment
+        x.strokeStyle = '#5BD1E8'; x.lineWidth = 2; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke();
+        x.fillStyle = '#5BD1E8'; x.fillText(Math.round(d) + ' px', (a.x + b.x) / 2 + 10, (a.y + b.y) / 2 - 10);
+        // points
+        pts.forEach((p, i) => {
+          bracket(p.x, p.y, 18, '#FFD23F');
+          x.fillStyle = '#5BD1E8'; x.beginPath(); x.arc(p.x, p.y, 5, 0, Math.PI*2); x.fill();
+          x.fillStyle = 'rgba(238,240,247,.7)'; x.font = '400 12px "Atkinson Hyperlegible", sans-serif';
+          x.fillText('P' + (i + 1) + '  ' + Math.round(p.x) + ', ' + Math.round(p.y), p.x + 24, p.y + 4);
+        });
+        span.textContent = Math.round(d);
+      }
+      hero.addEventListener('pointermove', e => { const r = hero.getBoundingClientRect(); target.x = e.clientX - r.left; target.y = e.clientY - r.top; target.active = true; });
+      hero.addEventListener('pointerleave', () => target.active = false);
+      addEventListener('resize', () => { size(); if (still) draw(); });
+      size(); frame();
+    })();
+  </script>
 </body>
 </html>
